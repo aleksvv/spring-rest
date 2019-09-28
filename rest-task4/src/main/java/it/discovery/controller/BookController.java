@@ -32,7 +32,7 @@ public class BookController {
         bookRepository.save(book);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         bookRepository.delete(id);
