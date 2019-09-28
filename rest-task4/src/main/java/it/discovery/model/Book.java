@@ -1,26 +1,28 @@
 package it.discovery.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.discovery.validation.BookTitleConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Book {
-	private int id;
+    @PositiveOrZero
+    private int id;
 
     @JsonProperty("title")
-    @XmlElement(name = "title2")
+    @Size(min = 3, max = 80)
     private String author;
 
-	private String name;
-	
-	private int year;
+    @Size(min = 3, max = 128)
+    @BookTitleConstraint
+    private String name;
+
+    @Min(1900)
+    private int year;
 }
