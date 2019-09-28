@@ -9,4 +9,9 @@ public class BookTitleValidator implements ConstraintValidator<BookTitleConstrai
     public boolean isValid(String title, ConstraintValidatorContext context) {
         return Character.isUpperCase(title.charAt(0));
     }
+
+    @Override
+    public void initialize(BookTitleConstraint constraintAnnotation) {
+
+    }
 }
