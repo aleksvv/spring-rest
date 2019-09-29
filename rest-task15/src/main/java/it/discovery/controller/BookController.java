@@ -2,6 +2,7 @@ package it.discovery.controller;
 
 import io.micrometer.core.annotation.Timed;
 import it.discovery.error.handling.BookNotFoundException;
+import it.discovery.hateoas.BookResource;
 import it.discovery.model.Book;
 import it.discovery.model.Page;
 import it.discovery.model.criteria.PageCriteria;
@@ -35,8 +36,9 @@ public class BookController {
     }
 
     @GetMapping("{id}")
-    public Book findById(@PathVariable int id) {
+    public BookResource findById(@PathVariable int id) {
         return Optional.ofNullable(bookRepository.findById(id))
+                .map(BookResource::new)
                 .orElseThrow(BookNotFoundException::new);
     }
 
