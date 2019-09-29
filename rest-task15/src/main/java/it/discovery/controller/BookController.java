@@ -8,6 +8,7 @@ import it.discovery.model.Page;
 import it.discovery.model.criteria.PageCriteria;
 import it.discovery.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +37,11 @@ public class BookController {
     }
 
     @GetMapping("{id}")
-    public BookResource findById(@PathVariable int id) {
+    @Cacheable("books")
+    public ResponseEntity<BookResource> findById(@PathVariable int id) {
         return Optional.ofNullable(bookRepository.findById(id))
                 .map(BookResource::new)
+                .map(ResponseEntity::ok)
                 .orElseThrow(BookNotFoundException::new);
     }
 
