@@ -1,5 +1,6 @@
 package it.discovery.controller;
 
+import io.micrometer.core.annotation.Timed;
 import it.discovery.error.handling.BookNotFoundException;
 import it.discovery.model.Book;
 import it.discovery.model.Page;
@@ -23,6 +24,7 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @GetMapping
+    @Timed("book.findAll")
     public ResponseEntity<List<Book>> findAll(@RequestParam int pageIndex, @RequestParam int size) {
         Page page = bookRepository.search(new PageCriteria(pageIndex, size));
 
