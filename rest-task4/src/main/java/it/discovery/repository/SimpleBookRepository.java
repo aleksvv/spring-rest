@@ -1,8 +1,11 @@
 package it.discovery.repository;
 
+import it.discovery.event.BookSavedEvent;
 import it.discovery.model.Book;
 import it.discovery.model.Page;
 import it.discovery.model.criteria.PageCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,6 +18,9 @@ public class SimpleBookRepository implements BookRepository {
 	private final Map<Integer, Book> books = new ConcurrentHashMap<>();
 
 	private int counter = 0;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	@Override
 	public Book findById(int id) {
@@ -42,6 +48,8 @@ public class SimpleBookRepository implements BookRepository {
 			book.setId(counter);
 			books.put(counter, book);
 			System.out.println("*** Book with id=" + book.getId() + " was created");
+
+			applicationContext.publishEvent(new BookSavedEvent(book.getId()));
 		} else {
 			books.put(book.getId(), book);
 			System.out.println("*** Book with id=" + book.getId() + " was updated");
