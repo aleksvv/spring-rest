@@ -26,7 +26,7 @@ public class BookControllerTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    void saveBook_validObject_ok() throws Exception {
+    void saveBook_validObject_returnsLocation() throws Exception {
         Book book = new Book();
         book.setName("REST");
         book.setAuthor("Unknown");
