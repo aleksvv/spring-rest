@@ -2,10 +2,13 @@ package it.discovery.controller;
 
 import it.discovery.error.handling.BookNotFoundException;
 import it.discovery.model.Book;
+import it.discovery.model.Page;
+import it.discovery.model.criteria.PageCriteria;
 import it.discovery.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,8 +23,12 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @GetMapping
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public ResponseEntity<List<Book>> findAll(@RequestParam int pageIndex, @RequestParam int size) {
+        Page page = bookRepository.search(new PageCriteria(pageIndex, size));
+
+        return ResponseEntity.ok().header("X-TOTAL-COUNT",
+                String.valueOf(page.getTotalCount()))
+                .body(page.getBooks());
     }
 
     @GetMapping("{id}")

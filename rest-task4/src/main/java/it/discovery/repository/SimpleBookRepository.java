@@ -1,13 +1,14 @@
 package it.discovery.repository;
 
+import it.discovery.model.Book;
+import it.discovery.model.Page;
+import it.discovery.model.criteria.PageCriteria;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.springframework.stereotype.Repository;
-
-import it.discovery.model.Book;
 
 @Repository
 public class SimpleBookRepository implements BookRepository {
@@ -23,6 +24,15 @@ public class SimpleBookRepository implements BookRepository {
 	@Override
 	public List<Book> findAll() {
 		return new ArrayList<>(books.values());
+	}
+
+	@Override
+	public Page search(PageCriteria pageCriteria) {
+		int totalCount = books.size();
+		List<Book> foundBooks = new ArrayList<Book>(books.values())
+				.subList(pageCriteria.getPageIndex() * pageCriteria.getPageSize(),
+						(pageCriteria.getPageIndex() + 1) * pageCriteria.getPageSize());
+		return new Page(totalCount, foundBooks);
 	}
 
 	@Override

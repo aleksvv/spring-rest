@@ -34,9 +34,9 @@ public class BookRestClient {
     }
 
     public URI save(Book book) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap();
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        HttpEntity<?> httpEntity = new HttpEntity(book, headers);
+        HttpEntity<Book> httpEntity = new HttpEntity<>(book, headers);
         return restTemplate.postForLocation("", httpEntity);
     }
 
