@@ -24,7 +24,7 @@ public class BookController {
 
     private final BookRepository bookRepository;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Timed("book.findAll")
     public ResponseEntity<List<Book>> findAll(@RequestParam int pageIndex, @RequestParam int size) {
         Page page = bookRepository.search(new PageCriteria(pageIndex, size));
