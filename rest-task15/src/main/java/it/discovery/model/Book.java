@@ -27,4 +27,6 @@ public class Book {
 
     @Min(1900)
     private int year;
+
+    private boolean rented;
 }

@@ -50,6 +50,17 @@ public class BookController {
                 .build();
     }
 
+    @PutMapping("{id}/rent")
+    public ResponseEntity<Book> rent(@PathVariable int id) {
+        Optional.ofNullable(bookRepository.findById(id)).ifPresentOrElse(book -> {
+            book.setRented(true);
+            bookRepository.save(book);
+        }, () -> {
+            throw new BookNotFoundException();
+        });
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
